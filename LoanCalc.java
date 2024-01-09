@@ -4,7 +4,7 @@
 public class LoanCalc {
 	
 	static double epsilon = 0.001;  // The computation tolerance (estimation error)
-	static int iterationCounter;    // Monitors the efficiency of the calculation
+	static int iterationCounter=0;    // Monitors the efficiency of the calculation
 	
     /** 
      * Gets the loan data and computes the periodical payment.
@@ -23,7 +23,7 @@ public class LoanCalc {
 		System.out.printf("%.2f", bruteForceSolver(loan, rate, n, epsilon));
 		System.out.println();
 		System.out.println("number of iterations: " + iterationCounter);
-
+		iterationCounter=0;
 		// Computes the periodical payment using bisection search
 		System.out.print("Periodical payment, using bi-section search: ");
 		System.out.printf("%.2f", bisectionSolver(loan, rate, n, epsilon));
@@ -40,7 +40,12 @@ public class LoanCalc {
 	// Side effect: modifies the class variable iterationCounter.
     public static double bruteForceSolver(double loan, double rate, int n, double epsilon) {  
     	// Replace the following statement with your code
-    	return 0;
+    	double g=loan/n;
+    	while(endBalance(loan,rate,n,g)>0){
+    			g=g+epsilon;
+    			iterationCounter++;
+    	}  
+    	return g;
     }
     
     /**
@@ -52,7 +57,22 @@ public class LoanCalc {
 	// Side effect: modifies the class variable iterationCounter.
     public static double bisectionSolver(double loan, double rate, int n, double epsilon) {  
     	// Replace the following statement with your code
-    	return 0;
+    	double l=loan/n;
+    	double h=loan;
+    	double g=(l+h)/2;
+
+    	while ((h-l)>epsilon) {
+    		if((endBalance(loan,rate,n,g)*endBalance(loan,rate,n,l))>0){
+    			l=g;
+    		}
+    		else {
+    			h=g;
+    		}
+    		g=(l+h)/2;
+    		iterationCounter++;
+    	}
+
+    	return g;
     }
 	
 	/**
@@ -61,6 +81,9 @@ public class LoanCalc {
 	*/
 	private static double endBalance(double loan, double rate, int n, double payment) {
 		// Replace the following statement with your code
-    	return 0;
+		for(int i=0; i<n;i++){
+			loan=(loan-payment)*((rate/100)+1);
+		}
+    	return loan;
 	}
 }

@@ -4,7 +4,6 @@ public class LowerCase {
         String str = args[0];
         System.out.println(lowerCase(str));
     }
-
    /**
     * Returns a string which is identical to the original string, 
     * except that all the upper-case letters are converted to lower-case letters.
@@ -12,6 +11,14 @@ public class LowerCase {
     */
     public static String lowerCase(String s) {
         // Replace the following statement with your code
-        return null;
+            String newStr="";
+               for(int i = 0; i<s.length(); i++){
+                    char c= s.charAt(i);
+                        if(c>='A' && c<='Z'){
+                            c=((char)(c+32));
+                        }
+                    newStr+=c;
+               }
+        return newStr;
     }
 }
